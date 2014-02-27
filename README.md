@@ -15,7 +15,7 @@ repositories {
     mavenCentral()
     mavenLocal()
     maven {
-        url "http://mente.github.io/facebook-api-android-aar"
+        url "http://bitcellar-labs.github.io/facebook-api-android-aar"
     }
 }
 
