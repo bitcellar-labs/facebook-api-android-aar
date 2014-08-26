@@ -10,8 +10,13 @@ buildscript {
 
 apply plugin: 'android-library'
 
+repositories {
+    mavenCentral()
+}
+
 dependencies {
     compile 'com.android.support:support-v4:+'
+    compile 'fr.avianey:bolts-android-api:1.1.0'
 }
 
 android {
@@ -22,8 +27,11 @@ android {
             res.srcDirs = ['facebook-android-sdk/facebook/res']
         }
     }
-    buildToolsVersion "19.0.1"
+    buildToolsVersion "20"
     compileSdkVersion 19
+    lintOptions {
+      abortOnError false
+    }
 }
 
 android.libraryVariants.all { variant ->
@@ -32,7 +40,7 @@ android.libraryVariants.all { variant ->
         description = "Generates javadoc for build $name"
         destinationDir = new File(destinationDir, variant.baseName)
         source = files(variant.javaCompile.source)
-        classpath = files(android.plugin.runtimeJarList, variant.javaCompile.classpath)
+        classpath = files(android.getBootClasspath(), variant.javaCompile.classpath)
         classifier = 'javadoc'
         exclude '**/R.html', '**/R.*.html', '**/index.html'
     }
@@ -45,5 +53,5 @@ android.libraryVariants.all { variant ->
 
 task sources(type: Jar, dependsOn: assembleRelease) {
     classifier = 'sources'
-    from android.sourceSets.main.allSource
+    from android.sourceSets.main.java
 }
